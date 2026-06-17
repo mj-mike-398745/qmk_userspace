@@ -19,9 +19,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
+#if defined(ENCODER_MAP_ENABLE)
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+    [0] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_PGDN, KC_PGUP) },
+    [1] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
+    [2] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
+    [3] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
+};
+#endif
+
 bool rgb_matrix_indicators_user(void) {
     if (layer_state_is(2)) {
-        rgb_matrix_set_color_all(255, 150, 0);  // amber gold
+        uint8_t v = rgb_matrix_get_val();
+        rgb_matrix_set_color_all(v, v * 150 / 255, 0);  // amber, scaled to your brightness
     }
     return false;
 }
